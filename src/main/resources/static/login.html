@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — CampusFind</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="/index.html" class="brand-logo">
+        <span style="font-size: 1.6rem;">🔍</span>
+        <div>Campus<span class="highlight">Find</span></div>
+        <span class="brand-badge">Official Portal</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/browse.html">Browse Listings</a></li>
+      </ul>
+
+      <div id="nav-auth-container" class="nav-auth"></div>
+    </div>
+  </header>
+
+  <!-- Login Main -->
+  <main style="padding: 3.5rem 0 5rem 0;">
+    <div class="container" style="max-width: 480px;">
+
+      <div class="card" style="padding: 2.25rem; background: var(--bg-surface);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔐</div>
+          <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-primary);">Campus Sign In</h1>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">
+            Access your student dashboard or administrator review desk.
+          </p>
+        </div>
+
+        <!-- 1-Click Demo Credentials Quick Filler -->
+        <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.75rem;">
+          <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.6rem; text-align: center;">
+            ⚡ 1-Click Quick Demo Sign-In (Local Dev)
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+            <button type="button" onclick="fillCredentials('admin@campusfind.edu', 'Admin@123Password')" class="btn btn-sm btn-amber" style="width: 100%;">
+              🔑 Demo Admin (admin@campusfind.edu)
+            </button>
+            <button type="button" onclick="fillCredentials('aarav.student@campusfind.edu', 'Password@123')" class="btn btn-sm btn-outline" style="width: 100%;">
+              🎓 Student 1: Aarav Sharma
+            </button>
+            <button type="button" onclick="fillCredentials('diya.student@campusfind.edu', 'Password@123')" class="btn btn-sm btn-outline" style="width: 100%;">
+              🎓 Student 2: Diya Patel
+            </button>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem;">
+            * In production cloud deployment, use your environment-configured credentials or create a new student account below.
+          </div>
+        </div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label class="form-label">College Email Address</label>
+            <input type="email" id="login-email" class="form-control" required placeholder="name@campusfind.edu">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="login-password" class="form-control" required placeholder="••••••••">
+          </div>
+
+          <div style="margin-top: 1.75rem;">
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+              Log In to CampusFind
+            </button>
+          </div>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+          New campus student? <a href="/register.html" style="font-weight: 600;">Create an account here</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        CampusFind College Mini-Project &copy; 2026. Built with Java 21, Spring Boot 3 & Clean OOP Principles.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    function fillCredentials(email, password) {
+      document.getElementById('login-email').value = email;
+      document.getElementById('login-password').value = password;
+      showToast('Credentials filled. Click "Log In" to proceed.', 'info');
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const response = await API.login({ email, password });
+        showToast(response.message || 'Login successful!', 'success');
+
+        setTimeout(() => {
+          if (response.user && response.user.role === 'ROLE_ADMIN') {
+            window.location.href = '/admin.html';
+          } else {
+            window.location.href = '/dashboard.html';
+          }
+        }, 700);
+
+      } catch (err) {
+        showToast(err.message || 'Invalid email or password. Please try again.', 'error');
+      }
+    });
+  </script>
+</body>
+</html>

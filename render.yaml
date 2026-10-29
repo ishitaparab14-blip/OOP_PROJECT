@@ -1,0 +1,27 @@
+# Render Blueprint for 1-Click Deployment of CampusFind
+services:
+  - type: web
+    name: campusfind-web
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /api/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATABASE_URL
+        fromDatabase:
+          name: campusfind-db
+          property: connectionString
+      - key: CAMPUSFIND_ADMIN_EMAIL
+        value: admin@campusfind.edu
+      - key: CAMPUSFIND_ADMIN_PASSWORD
+        generateValue: true
+
+databases:
+  - name: campusfind-db
+    plan: free
+    region: oregon
+    databaseName: campusfind
+    user: campusfind_user

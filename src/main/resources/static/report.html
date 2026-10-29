@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Item — CampusFind</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="/index.html" class="brand-logo">
+        <span style="font-size: 1.6rem;">🔍</span>
+        <div>Campus<span class="highlight">Find</span></div>
+        <span class="brand-badge">Official Portal</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/browse.html">Browse Listings</a></li>
+        <li><a href="/report.html" class="active">Report Lost/Found</a></li>
+        <li><a href="/dashboard.html">Student Dashboard</a></li>
+      </ul>
+
+      <div id="nav-auth-container" class="nav-auth"></div>
+    </div>
+  </header>
+
+  <!-- Report Form Container -->
+  <main style="padding: 3rem 0 5rem 0;">
+    <div class="container" style="max-width: 780px;">
+
+      <div class="card" style="padding: 2.5rem; background: var(--bg-surface);">
+        
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <h1 id="report-page-title" style="font-size: 2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">
+            Report an Article
+          </h1>
+          <p style="color: var(--text-secondary);">
+            Submit accurate details to assist campus administration in reconnecting the article with its owner.
+          </p>
+        </div>
+
+        <!-- Type Selector Segment -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center;">
+          <button type="button" id="tab-lost" class="btn btn-lg" style="flex: 1; border: 2px solid var(--accent-rose); background: var(--accent-rose-light); color: var(--accent-rose);">
+            ⚠️ I Lost An Item
+          </button>
+          <button type="button" id="tab-found" class="btn btn-lg btn-outline" style="flex: 1;">
+            📍 I Found An Item
+          </button>
+        </div>
+
+        <form id="report-form">
+          <input type="hidden" id="report-type" value="LOST">
+
+          <div class="form-group">
+            <label class="form-label">Article Title *</label>
+            <input type="text" id="report-title" class="form-control" required placeholder="e.g. Casio Scientific Calculator FX-991CW with black cover" minlength="3" maxlength="150">
+            <div class="form-hint">A concise, descriptive summary of the item.</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Category *</label>
+              <select id="report-category" class="form-select" required>
+                <option value="" disabled selected>Select category...</option>
+                <option value="ELECTRONICS">Electronics & Gadgets</option>
+                <option value="BOOKS_STATIONERY">Books & Stationery</option>
+                <option value="BAGS_WALLETS">Bags & Wallets</option>
+                <option value="KEYS_CARDS">Keys, IDs & Cards</option>
+                <option value="CLOTHING_ACCESSORIES">Clothing & Accessories</option>
+                <option value="OTHER">Other Miscellaneous</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Date of Incident *</label>
+              <input type="date" id="report-date" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Campus Location *</label>
+            <input type="text" id="report-location" class="form-control" required placeholder="e.g. Central Library 2nd Floor Cubicle #14">
+            
+            <!-- Campus quick chips -->
+            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center; margin-right: 0.2rem;">Quick Pick:</span>
+              <button type="button" class="btn btn-sm btn-outline location-chip" data-loc="Central Library 2nd Floor">Library</button>
+              <button type="button" class="btn btn-sm btn-outline location-chip" data-loc="Main Cafeteria Ground Floor">Cafeteria</button>
+              <button type="button" class="btn btn-sm btn-outline location-chip" data-loc="Computer Science Lab 3">CS Lab</button>
+              <button type="button" class="btn btn-sm btn-outline location-chip" data-loc="Main Auditorium Hall">Auditorium</button>
+              <button type="button" class="btn btn-sm btn-outline location-chip" data-loc="Sports Complex Badminton Court">Sports Complex</button>
+              <button type="button" class="btn btn-sm btn-outline location-chip" data-loc="East Campus Parking Gate 2">Parking</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Item Image URL (Optional)</label>
+            <input type="url" id="report-image" class="form-control" placeholder="https://images.unsplash.com/... (Direct image link)">
+            <div class="form-hint">You can paste an image URL or leave blank to use the default category icon.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Detailed Description *</label>
+            <textarea id="report-description" class="form-control" rows="4" required placeholder="Describe identifiable characteristics: color, brand, scratches, distinguishing marks, stickers, approximate time of occurrence..." minlength="10" maxlength="2000"></textarea>
+            <div class="form-hint">More details help the algorithm find high-accuracy matches!</div>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <button type="submit" id="submit-btn" class="btn btn-rose btn-lg" style="width: 100%;">
+              Publish Lost Item Report
+            </button>
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        CampusFind College Mini-Project &copy; 2026. Built with Java 21, Spring Boot 3 & Clean OOP Principles.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+  <script>
+    let currentType = 'LOST';
+
+    function setReportType(type) {
+      currentType = type;
+      document.getElementById('report-type').value = type;
+
+      const lostBtn = document.getElementById('tab-lost');
+      const foundBtn = document.getElementById('tab-found');
+      const submitBtn = document.getElementById('submit-btn');
+      const pageTitle = document.getElementById('report-page-title');
+
+      if (type === 'LOST') {
+        lostBtn.className = 'btn btn-lg';
+        lostBtn.style = 'flex: 1; border: 2px solid var(--accent-rose); background: var(--accent-rose-light); color: var(--accent-rose); font-weight: 700;';
+        foundBtn.className = 'btn btn-lg btn-outline';
+        foundBtn.style = 'flex: 1;';
+        submitBtn.className = 'btn btn-rose btn-lg';
+        submitBtn.textContent = 'Publish Lost Item Report';
+        pageTitle.textContent = 'Report a Lost Item';
+      } else {
+        foundBtn.className = 'btn btn-lg';
+        foundBtn.style = 'flex: 1; border: 2px solid var(--primary-color); background: var(--primary-light); color: var(--primary-color); font-weight: 700;';
+        lostBtn.className = 'btn btn-lg btn-outline';
+        lostBtn.style = 'flex: 1;';
+        submitBtn.className = 'btn btn-primary btn-lg';
+        submitBtn.textContent = 'Publish Found Item Listing';
+        pageTitle.textContent = 'Report a Found Item';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Check login
+      const user = await API.getCurrentUser();
+      if (!user) {
+        showToast('Please log in first to report an item.', 'warning');
+        setTimeout(() => window.location.href = '/login.html', 800);
+        return;
+      }
+
+      // Default date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('report-date').value = today;
+      document.getElementById('report-date').max = today;
+
+      // Handle type from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('type') === 'FOUND') {
+        setReportType('FOUND');
+      } else {
+        setReportType('LOST');
+      }
+
+      // Tab clicks
+      document.getElementById('tab-lost').addEventListener('click', () => setReportType('LOST'));
+      document.getElementById('tab-found').addEventListener('click', () => setReportType('FOUND'));
+
+      // Quick location chips
+      document.querySelectorAll('.location-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.getElementById('report-location').value = chip.getAttribute('data-loc');
+        });
+      });
+
+      // Submit report
+      document.getElementById('report-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const itemData = {
+          title: document.getElementById('report-title').value.trim(),
+          description: document.getElementById('report-description').value.trim(),
+          category: document.getElementById('report-category').value,
+          type: currentType,
+          location: document.getElementById('report-location').value.trim(),
+          relevantDate: document.getElementById('report-date').value,
+          imageUrl: document.getElementById('report-image').value.trim() || null
+        };
+
+        try {
+          const created = await API.createItem(itemData);
+          showToast(`Report published successfully!`, 'success');
+          setTimeout(() => {
+            window.location.href = `/item-details.html?id=${created.id}`;
+          }, 700);
+        } catch (err) {
+          showToast(err.message || 'Failed to publish report', 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
